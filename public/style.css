@@ -27,3 +27,8 @@ body {
 .cell.miss {
   background: green;
 }
+
+#grid.game-over {
+  pointer-events: none;
+  opacity: 0.6;
+}

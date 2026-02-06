@@ -59,6 +59,11 @@ if ($grid[$row][$col] === 1) {
     $_SESSION['score'] -= 1; // penalty for a miss
 }
 
+// Prevent negative score
+if ($_SESSION['score'] < 0) {
+    $_SESSION['score'] = 0;
+}
+
 $_SESSION['hits'] = $hits;
 $_SESSION['misses'] = $misses;
 
@@ -110,6 +115,11 @@ if ($gameOver && empty($_SESSION['finalized'])) {
     // add 2 points per remaining move as a completion bonus
     $_SESSION['score'] += $remaining * 2;
     $_SESSION['finalized'] = true;
+}
+
+// Ensure stored score never goes negative after finalization
+if ($_SESSION['score'] < 0) {
+    $_SESSION['score'] = 0;
 }
 
 echo json_encode([

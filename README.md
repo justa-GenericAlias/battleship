@@ -6,4 +6,6 @@
     - Trying to make it a difficulty-like system
     - Originally, I wanted to make a difficulty system to coincide with the turn limit, but it became far too taxing with how many times I tried to reset the board without reloading the entire page.
 
-2) 
+2) Score system
+    - Puts a score to the current attempt, adding and subtracting points based on actions.
+    - Very simplified, though I believed I could expand it further into something else, though this didn't go anywhere.

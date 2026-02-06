@@ -1,6 +1,7 @@
 const grid = document.getElementById("grid");
 const score = document.getElementById("score");
 const letters = "ABCDEFGHIJ";
+let gameOverFlag = false;
 
 const messageDiv = document.createElement('div');
 messageDiv.id = 'message';
@@ -33,6 +34,11 @@ function createGrid() {
 async function fire(e) {
   const cell = e.target;
   const id = cell.dataset.id;
+
+  if (gameOverFlag) {
+    messageDiv.textContent = 'Game is over. Start a new game to play again.';
+    return;
+  }
 
   if (cell.classList.contains("hit") || cell.classList.contains("miss")) {
     return;
@@ -72,6 +78,8 @@ async function fire(e) {
   score.textContent = `Score: ${safeScore} | Hits: ${safeHits} | Misses: ${safeMisses} | Turns: ${safeTurns}/${safeMax}`;
 
   if (data.gameOver) {
+    gameOverFlag = true;
+    grid.classList.add('game-over');
     if (data.win) {
       alert(`You win! Final score: ${data.score} (bonus for ${data.remainingMoves} remaining moves)`);
     } else if (data.lose) {
