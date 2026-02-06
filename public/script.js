@@ -50,22 +50,32 @@ async function fire(e) {
     cell.classList.add("hit");
   } else if (data.status === "miss") {
     cell.classList.add("miss");
+  } else if (data.status === "duplicate") {
+    messageDiv.textContent = 'You already fired at that cell.';
+    // continue to update UI from the returned full state
   }
 
-  score.textContent =
-  `Hits: ${data.hits} | Misses: ${data.misses} | Turns: ${data.turns}/${data.maxTurns}`;
-
-  if (data.sunkShipMessage) {
-    messageDiv.textContent = data.sunkShipMessage;
-  } else {
-    messageDiv.textContent = '';
+  if (data.sunk) {
+    alert(`You sunk a ship of size ${data.sunk}!`);
   }
+
+  // clear any previous messages for successful or duplicate updates
+  if (data.status !== 'duplicate') messageDiv.textContent = '';
+
+  // Safely convert values to numbers with fallbacks
+  const safeScore = Number.isFinite(Number(data.score)) ? Number(data.score) : 0;
+  const safeHits = Number.isFinite(Number(data.hits)) ? Number(data.hits) : 0;
+  const safeMisses = Number.isFinite(Number(data.misses)) ? Number(data.misses) : 0;
+  const safeTurns = Number.isFinite(Number(data.turns)) ? Number(data.turns) : 0;
+  const safeMax = Number.isFinite(Number(data.maxTurns)) ? Number(data.maxTurns) : 0;
+
+  score.textContent = `Score: ${safeScore} | Hits: ${safeHits} | Misses: ${safeMisses} | Turns: ${safeTurns}/${safeMax}`;
 
   if (data.gameOver) {
     if (data.win) {
-      alert("You win! You sank all the ships.");
+      alert(`You win! Final score: ${data.score} (bonus for ${data.remainingMoves} remaining moves)`);
     } else if (data.lose) {
-      alert("Game Over! You ran out of turns.");
+      alert(`Game Over! Final score: ${data.score}`);
     }
   }
 }
